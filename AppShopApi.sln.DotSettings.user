@@ -1,0 +1,9 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=80d853f2_002Dbd13_002D42ab_002Da79f_002D5b0b74c20e5b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ApiTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::D426ACD3-3EDA-46B4-BCED-6544EBED19EC::net6.0::AppShopApi.Test.ApiTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8b969b23_002Da0b1_002D4923_002D84a7_002D803c984d2fa6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from ApiTest.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;D426ACD3-3EDA-46B4-BCED-6544EBED19EC/f:ApiTest.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
