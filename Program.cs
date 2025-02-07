@@ -17,6 +17,12 @@ public class Program
         builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+        builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        });
+
         var app = builder.Build();
 
 
@@ -33,11 +39,11 @@ public class Program
 
         app.MapControllers();
 
-        using (var scope = app.Services.CreateScope())
+        /*using (var scope = app.Services.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            dbContext.Database.EnsureCreated();
-        }
+            dbContext.Database.Migrate();
+        }*/
 
         app.Run();
     }

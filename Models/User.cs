@@ -1,10 +1,15 @@
-﻿namespace AppShop.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AppShop.Models;
 
 public class User
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Nombre { get; set; }
-    public List<Comment> Comentarios { get; set; } = new List<Comment>();
-    public List<Rating> Valoraciones { get; set; } = new List<Rating>();
-    public List<Download> Descargas { get; set; } = new List<Download>();
+    public ICollection<Comment> Comentarios { get; set; } = new List<Comment>();
+    public ICollection<Rating> Valoraciones { get; set; } = new List<Rating>();
+    public ICollection<Download> Descargas { get; set; } = new List<Download>();
 }

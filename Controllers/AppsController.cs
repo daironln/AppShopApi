@@ -1,5 +1,6 @@
 ﻿using AppShop.Data;
 using AppShop.Models;
+using AppShop.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,25 +17,19 @@ public class AppsController : ControllerBase
         _context = context;
     }
 
-    // GET: api/Apps
+   
     [HttpGet]
     public async Task<ActionResult<IEnumerable<App>>> GetApps()
     {
         return await _context.Apps
-            .Include(a => a.Comentarios)
-            .Include(a => a.Valoraciones)
-            .Include(a => a.Descargas)
             .ToListAsync();
     }
 
-    // GET: api/Apps/{id}
+   
     [HttpGet("{id}")]
     public async Task<ActionResult<App>> GetApp(int id)
     {
         var app = await _context.Apps
-            .Include(a => a.Comentarios)
-            .Include(a => a.Valoraciones)
-            .Include(a => a.Descargas)
             .FirstOrDefaultAsync(a => a.Id == id);
 
         if (app == null)
@@ -44,61 +39,90 @@ public class AppsController : ControllerBase
         return app;
     }
 
-    // POST: api/Apps
+    
     [HttpPost]
-    public async Task<ActionResult<App>> CreateApp(App app)
+    public async Task<ActionResult<App>> CreateApp(AppDTO appDto)
     {
+        App app = new()
+        {
+            Nombre = appDto.Nombre,
+            Descripcion = appDto.Descripcion
+        };
+
         _context.Apps.Add(app);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetApp), new { id = app.Id }, app);
     }
 
-    // POST: api/Apps/{appId}/comentarios
-    [HttpPost("{appId}/comentarios")]
-    public async Task<IActionResult> AddComentario(int appId, Comment comentario)
+    
+    [HttpPost("usuarios")]
+    public async Task<ActionResult<App>> CreateUser(UserDTO userDto)
     {
-        var app = await _context.Apps.FindAsync(appId);
-        if (app == null)
+        User user = new()
         {
-            return NotFound("La app no fue encontrada.");
-        }
-        comentario.AppId = appId;
-        _context.Comentarios.Add(comentario);
+            Nombre = userDto.Nombre
+        };
+
+        _context.Usuarios.Add(user);
         await _context.SaveChangesAsync();
-        return Ok(comentario);
+
+        return CreatedAtAction(nameof(CreateUser), new { id = user.Id }, user);
     }
 
-    // POST: api/Apps/{appId}/valoraciones
+    [HttpGet("usuarios")]
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    {
+        return await _context.Usuarios
+            .ToListAsync();
+    }
+
+
     [HttpPost("{appId}/valoraciones")]
-    public async Task<IActionResult> AddValoracion(int appId, Rating valoracion)
+    public async Task<IActionResult> AddValoracion(int appId, RatingDTO valoracionDto)
     {
         var app = await _context.Apps.FindAsync(appId);
         if (app == null)
         {
             return NotFound("La app no fue encontrada.");
         }
-        if (valoracion.Estrellas < 1 || valoracion.Estrellas > 5)
+        if (valoracionDto.Estrellas < 1 || valoracionDto.Estrellas > 5)
         {
             return BadRequest("El numero de estrellas debe estar entre 1 y 5.");
         }
-        valoracion.AppId = appId;
+
+        Rating valoracion = new()
+        {
+            Estrellas = valoracionDto.Estrellas,
+            AppId = appId,
+            UsuarioId = valoracionDto.UsuarioId
+        };
+
         _context.Valoraciones.Add(valoracion);
         await _context.SaveChangesAsync();
         return Ok(valoracion);
     }
 
-    // POST: api/Apps/{appId}/descargas
+  
     [HttpPost("{appId}/descargas")]
-    public async Task<IActionResult> AddDescarga(int appId, Download descarga)
+    public async Task<IActionResult> AddDescarga(int appId, DownloadDTO descargaDto)
     {
         var app = await _context.Apps.FindAsync(appId);
+
         if (app == null)
         {
             return NotFound("La app no fue encontrada.");
+        
         }
-        descarga.AppId = appId;
+
+        Download descarga = new()
+        {
+            UsuarioId = descargaDto.UsuarioId,
+            AppId = appId
+        };
+
         descarga.FechaDescarga = DateTime.UtcNow;
+
         _context.Descargas.Add(descarga);
         await _context.SaveChangesAsync();
         return Ok(descarga);

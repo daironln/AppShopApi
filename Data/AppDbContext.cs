@@ -12,4 +12,16 @@ public class AppDbContext : DbContext
     public DbSet<Comment> Comentarios { get; set; }
     public DbSet<Rating> Valoraciones { get; set; }
     public DbSet<Download> Descargas { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<App>().ToTable("App");
+        modelBuilder.Entity<User>().ToTable("User");
+        modelBuilder.Entity<Comment>().ToTable("Comentario");
+        modelBuilder.Entity<Rating>().ToTable("Valoracion");
+        modelBuilder.Entity<Download>().ToTable("Descarga");
+
+    }
 }
